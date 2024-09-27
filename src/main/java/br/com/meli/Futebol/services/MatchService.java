@@ -45,9 +45,8 @@ public class MatchService {
         Match existingMatch = matchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Match not found!"));
 
-        // Buscar o estádio pelo ID fornecido no JSON
         Stadium stadium = stadiumService.findById(updatedMatch.getStadiumMatch().getId());
-        updatedMatch.setStadiumMatch(stadium);  // Definir o estádio completo na partida
+        updatedMatch.setStadiumMatch(stadium);
 
         existingMatch.setHomeTeam(updatedMatch.getHomeTeam());
         existingMatch.setAwayTeam(updatedMatch.getAwayTeam());
