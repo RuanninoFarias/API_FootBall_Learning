@@ -5,7 +5,9 @@ import br.com.meli.Futebol.entities.Stadium;
 import br.com.meli.Futebol.entities.Team;
 import br.com.meli.Futebol.repositories.MatchRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,9 +21,16 @@ public class MatchService {
     private final TeamService teamService;
 
     public Match createMatch(Match match) {
-        Stadium stadium = stadiumService.findById(match.getStadiumMatch().getId());
         Team homeTeam = teamService.findById(match.getHomeTeam().getId());
         Team awayTeam = teamService.findById(match.getAwayTeam().getId());
+
+        if (!homeTeam.getIsActive()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Home team is inactive and cannot play.");
+        }
+        if (!awayTeam.getIsActive()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Away team is inactive and cannot play.");
+        }
+        Stadium stadium = stadiumService.findById(match.getStadiumMatch().getId());
         match.setHomeTeam(homeTeam);
         match.setAwayTeam(awayTeam);
         match.setStadiumMatch(stadium);

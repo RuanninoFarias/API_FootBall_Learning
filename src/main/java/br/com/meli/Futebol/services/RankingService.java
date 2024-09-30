@@ -3,7 +3,7 @@ package br.com.meli.Futebol.services;
 import br.com.meli.Futebol.entities.Match;
 import br.com.meli.Futebol.entities.Ranking;
 import br.com.meli.Futebol.entities.Team;
-import br.com.meli.Futebol.entities.MatchResult;
+import br.com.meli.Futebol.enums.MatchResult;
 import br.com.meli.Futebol.repositories.RankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

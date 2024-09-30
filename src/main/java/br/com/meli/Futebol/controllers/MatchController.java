@@ -2,6 +2,7 @@ package br.com.meli.Futebol.controllers;
 
 import br.com.meli.Futebol.entities.Match;
 import br.com.meli.Futebol.services.MatchService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping("/create")
-    public ResponseEntity<Match> createMatch(@RequestBody Match match) {
+    public ResponseEntity<Match> createMatch(@RequestBody @Valid Match match) {
         Match createdMatch = matchService.createMatch(match);
         return ResponseEntity.ok(createdMatch);
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<Match>> getAllMatch() {
         List<Match> allMatch = matchService.findAllMatch();
         return ResponseEntity.ok(allMatch);
@@ -33,7 +34,7 @@ public class MatchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Match> updateMatch(@PathVariable Long id, @RequestBody Match match) {
+    public ResponseEntity<Match> updateMatch(@PathVariable Long id, @Valid @RequestBody Match match) {
         Match updatedMatch = matchService.updateMatch(id, match);
         return ResponseEntity.ok(updatedMatch);
     }

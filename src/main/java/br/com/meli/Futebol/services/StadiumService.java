@@ -3,7 +3,9 @@ package br.com.meli.Futebol.services;
 import br.com.meli.Futebol.entities.Stadium;
 import br.com.meli.Futebol.repositories.StadiumRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,6 +16,10 @@ public class StadiumService {
     private final StadiumRepository stadiumRepository;
 
     public Stadium createStadium(Stadium stadium) {
+        boolean exists = stadiumRepository.existStadium(stadium.getStadiumName());
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Stadium already exists.");
+        }
         return stadiumRepository.save(stadium);
     }
     public List<Stadium> findAllStadium() {
